@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Niclas Eriksson</Authors>
+    <Company>Niclas Eriksson</Company>
+    <Description>Package to read and handle CSV-files in a dynamic way.</Description>
+    <Copyright>Niclas Eriksson</Copyright>
+    <PackageReleaseNotes>First version</PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>
