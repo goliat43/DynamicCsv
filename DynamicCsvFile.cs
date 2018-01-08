@@ -26,6 +26,16 @@ namespace DynamicCsv
 
         public int Count => count;
 
+        public static DynamicCsvFile Load(string filename)
+        {
+            if (string.IsNullOrWhiteSpace(filename)) throw new ArgumentNullException(nameof(filename));
+
+            var fs = new StreamReader(filename);
+
+            return Load(fs);
+        }
+
+
         public static DynamicCsvFile Load(StreamReader filestream)
         {
             if (filestream == null) throw new ArgumentNullException(nameof(filestream));
