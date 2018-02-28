@@ -15,8 +15,6 @@ namespace DynamicCsv
     /// </summary>
     public sealed class DynamicCsvFile : IEnumerable<DynamicCsvRow>
     {
-        private int count;
-
         private DynamicCsvFile()
         {
         }
@@ -24,7 +22,9 @@ namespace DynamicCsv
         public List<string> Headers { get; } = new List<string>();
         public List<DynamicCsvRow> Rows { get; } = new List<DynamicCsvRow>();
 
-        public int Count => count;
+        public DynamicCsvRow this[int i] => Rows[i];
+
+        public int Count => Rows?.Count ?? 0;
 
         public static DynamicCsvFile Load(string filename)
         {
@@ -51,7 +51,6 @@ namespace DynamicCsv
             //Read the rest of the file.
             while ((row = filestream.ReadLine()) != null)
             {
-                csvFile.count++; //TODO: Ugly!
                 //Skip empty rows.
                 if (string.IsNullOrWhiteSpace(row)) continue;
 

@@ -8,8 +8,8 @@ using System.Reflection;
 
 namespace DynamicCsv
 {
-    [System.Diagnostics.DebuggerDisplay("{ToDebugString()}")]
-    public sealed class DynamicCsvRow : DynamicObject, IEnumerable<string>
+    [System.Diagnostics.DebuggerDisplay("{" + nameof(ToDebugString) + "()}")]
+    public sealed class DynamicCsvRow : DynamicObject, IEnumerable<DynamicCsvEntry>
     {
         private readonly List<string> header;
         private readonly List<string> row;
@@ -22,7 +22,6 @@ namespace DynamicCsv
 
             this.header = header;
             this.row = rowContent.Split(Constants.Separator).ToList();
-
             if (header.Count != row.Count) throw new InvalidDataException("CSV row content doesn't match header.");
         }
 
@@ -56,15 +55,13 @@ namespace DynamicCsv
 
             if (indexes[0] == null) return false;
 
-            if (indexes[0] is int)
+            if (indexes[0] is int index1)
             {
-                var index = (int)indexes[0];
-                result = row[index];
+                result = row[index1];
                 return true;
             }
-            if (indexes[0] is string)
+            if (indexes[0] is string att)
             {
-                var att = (string)indexes[0];
                 var index = header.IndexOf(att);
                 result = row[index];
                 return true;
@@ -137,9 +134,9 @@ namespace DynamicCsv
 
 
         #region Enumerable
-        public IEnumerator<string> GetEnumerator()
+        public IEnumerator<DynamicCsvEntry> GetEnumerator()
         {
-            return ((IEnumerable<string>)row).GetEnumerator();
+            return header.Select((t, i) => new DynamicCsvEntry(row[i], t)).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -153,6 +150,16 @@ namespace DynamicCsv
         }
         #endregion Enumerable
 
+        public Dictionary<string, string> ToDictionary()
+        {
+            var dict = new Dictionary<string, string>();
+            for(int i = 0; i < header.Count; i++)
+            {
+                dict.Add(header[i], row[i]);
+            }
+
+            return dict;
+        }
 
         public string ToDebugString()
         {

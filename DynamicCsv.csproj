@@ -8,6 +8,7 @@
     <Description>Package to read and handle CSV-files in a dynamic way.</Description>
     <Copyright>Niclas Eriksson</Copyright>
     <PackageReleaseNotes>First version</PackageReleaseNotes>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
 </Project>
